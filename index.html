@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<h1>Blob It ✦</h1>
+<canvas id="preview"></canvas>
+
+<div class="section">
+  <div class="section-title">Shape</div>
+  <div class="row"><label>Points</label><span class="val" id="val-points">8</span></div>
+  <input type="range" id="sl-points" min="4" max="20" value="8" step="1">
+  <div class="row"><label>Radius</label><span class="val" id="val-radius">40</span></div>
+  <input type="range" id="sl-radius" min="10" max="90" value="40">
+  <div class="row"><label>Noise</label><span class="val" id="val-noise">40</span></div>
+  <input type="range" id="sl-noise" min="0" max="100" value="40">
+  <div class="row"><label>Smooth</label><span class="val" id="val-smooth">60</span></div>
+  <input type="range" id="sl-smooth" min="0" max="100" value="60">
+</div>
+
+<div class="section">
+  <div class="section-title">Color</div>
+  <div class="color-row"><label>Fill</label><input type="color" id="cl-fill" value="#39ff14"></div>
+  <div class="color-row"><label>Stroke</label><input type="color" id="cl-stroke" value="#000000"></div>
+  <div class="row"><label>Stroke width</label><span class="val" id="val-sw">0</span></div>
+  <input type="range" id="sl-sw" min="0" max="20" value="0" step="0.5">
+</div>
+
+<div class="row" style="margin-bottom:6px">
+  <label>Seed</label><span class="val" id="val-seed">1</span>
+</div>
+<input type="range" id="sl-seed" min="1" max="999" value="1" step="1">
+
+<button class="btn" id="btn-generate">Generate Blob</button>
+<button class="btn btn-sec" id="btn-random">↻ Randomize</button>
+<div id="status"></div>
+
+<script src="js/csinterface.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
