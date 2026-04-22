@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ExtensionManifest Version="8.0" ExtensionBundleId="com.daftlamb.blobit" ExtensionBundleVersion="1.0.0" ExtensionBundleName="Blob It">
+<ExtensionManifest Version="7.0" ExtensionBundleId="com.daftlamb.blobit" ExtensionBundleVersion="1.0.1" ExtensionBundleName="Blob It">
   <ExtensionList>
-    <Extension Id="com.daftlamb.blobit.panel" Version="1.0.0"/>
+    <Extension Id="com.daftlamb.blobit.panel" Version="1.0.1"/>
   </ExtensionList>
   <ExecutionEnvironment>
     <HostList>
@@ -11,7 +11,7 @@
       <Locale Code="All"/>
     </LocaleList>
     <RequiredRuntimeList>
-      <RequiredRuntime Name="CSXS" Version="11.0"/>
+      <RequiredRuntime Name="CSXS" Version="7.0"/>
     </RequiredRuntimeList>
   </ExecutionEnvironment>
   <DispatchInfoList>
@@ -28,8 +28,10 @@
           <Type>Panel</Type>
           <Menu>Blob It</Menu>
           <Geometry>
+            <Size><Width>260</Width><Height>560</Height></Size>
             <MinSize><Width>220</Width><Height>400</Height></MinSize>
-            <PreferredSize><Width>260</Width><Height>560</Height></PreferredSize>
+            <PreferredSize><Width>280</Width><Height>720</Height></PreferredSize>
+            <MaxSize><Width>520</Width><Height>1200</Height></MaxSize>
           </Geometry>
         </UI>
       </DispatchInfo>

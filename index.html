@@ -5,39 +5,70 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<h1>Blob It ✦</h1>
-<canvas id="preview"></canvas>
+<h1>Blob It</h1>
+<div id="status">Loading script...</div>
 
 <div class="section">
-  <div class="section-title">Shape</div>
-  <div class="row"><label>Points</label><span class="val" id="val-points">8</span></div>
-  <input type="range" id="sl-points" min="4" max="20" value="8" step="1">
-  <div class="row"><label>Radius</label><span class="val" id="val-radius">40</span></div>
-  <input type="range" id="sl-radius" min="10" max="90" value="40">
-  <div class="row"><label>Noise</label><span class="val" id="val-noise">40</span></div>
-  <input type="range" id="sl-noise" min="0" max="100" value="40">
-  <div class="row"><label>Smooth</label><span class="val" id="val-smooth">60</span></div>
-  <input type="range" id="sl-smooth" min="0" max="100" value="60">
+  <div class="section-title">Organic Brush</div>
+  <div class="row"><label>Radius</label><span class="val" id="val-radius">24</span></div>
+  <input type="range" id="sl-radius" min="4" max="120" value="24" step="1">
+  <div class="row"><label>Loose</label><span class="val" id="val-loose">42</span></div>
+  <input type="range" id="sl-loose" min="0" max="100" value="42" step="1">
+  <div class="row"><label>Noise</label><span class="val" id="val-noise">22</span></div>
+  <input type="range" id="sl-noise" min="0" max="100" value="22" step="1">
+  <div class="row"><label>Smooth</label><span class="val" id="val-smooth">65</span></div>
+  <input type="range" id="sl-smooth" min="0" max="100" value="65" step="1">
+  <div class="row"><label>Detail</label><span class="val" id="val-detail">60</span></div>
+  <input type="range" id="sl-detail" min="20" max="100" value="60" step="1">
+</div>
+
+<div class="section">
+  <div class="section-title">Symmetry</div>
+  <div class="segmented" id="symmetry">
+    <button class="seg active" data-value="none">None</button>
+    <button class="seg" data-value="x">X</button>
+    <button class="seg" data-value="y">Y</button>
+    <button class="seg" data-value="xy">XY</button>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Warp</div>
+  <div class="row"><label>Strength</label><span class="val" id="val-warp">60</span></div>
+  <input type="range" id="sl-warp" min="1" max="100" value="60" step="1">
+  <div class="button-grid">
+    <button class="btn btn-sec" id="btn-preset-left">Bulge Left</button>
+    <button class="btn btn-sec" id="btn-preset-right">Bulge Right</button>
+    <button class="btn btn-sec" id="btn-preset-pinch">Pinch</button>
+    <button class="btn btn-sec" id="btn-preset-explode">Explode</button>
+  </div>
+  <button class="btn btn-sec" id="btn-warp-blob">Add Blob Point</button>
+  <button class="btn btn-sec" id="btn-warp-explode">Add Explode Point</button>
+  <button class="btn btn-danger" id="btn-warp-clear">Clear Warp Points</button>
+  <div class="hint">Move or scale the control circles on the artboard, then update.</div>
 </div>
 
 <div class="section">
   <div class="section-title">Color</div>
   <div class="color-row"><label>Fill</label><input type="color" id="cl-fill" value="#39ff14"></div>
-  <div class="color-row"><label>Stroke</label><input type="color" id="cl-stroke" value="#000000"></div>
+  <div class="color-row"><label>Stroke</label><input type="color" id="cl-stroke" value="#111111"></div>
   <div class="row"><label>Stroke width</label><span class="val" id="val-sw">0</span></div>
   <input type="range" id="sl-sw" min="0" max="20" value="0" step="0.5">
 </div>
 
-<div class="row" style="margin-bottom:6px">
-  <label>Seed</label><span class="val" id="val-seed">1</span>
-</div>
-<input type="range" id="sl-seed" min="1" max="999" value="1" step="1">
+<label class="check-row">
+  <input type="checkbox" id="ck-keep" checked>
+  <span>Keep original paths</span>
+</label>
+<label class="check-row">
+  <input type="checkbox" id="ck-auto">
+  <span>Auto update current result</span>
+</label>
 
-<button class="btn" id="btn-generate">Generate Blob</button>
-<button class="btn btn-sec" id="btn-random">↻ Randomize</button>
-<div id="status"></div>
+<button class="btn" id="btn-organicize">Organicize Selected</button>
+<div class="hint">Draw with Illustrator Pencil/Brush, select the path, then organicize it.</div>
 
 <script src="js/csinterface.js"></script>
-<script src="js/main.js"></script>
+<script src="js/panel.js"></script>
 </body>
 </html>

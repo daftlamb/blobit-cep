@@ -3,8 +3,6 @@
  * Adobe CEP JavaScript interface library
  */
 
-var csInterface = (function() {
-
 function CSInterface() {
   this.hostEnvironment = window.__adobe_cep__ ? JSON.parse(window.__adobe_cep__.getHostEnvironment()) : null;
 }
@@ -18,16 +16,7 @@ CSInterface.prototype.evalScript = function(script, callback) {
     if (callback) callback('EvalScript error: CEP not available');
     return;
   }
-  if (callback) {
-    var callbackID = 'cb_' + Date.now() + '_' + Math.random().toString(36).substr(2,9);
-    window[callbackID] = function(result) {
-      delete window[callbackID];
-      callback(result);
-    };
-    window.__adobe_cep__.evalScript(script, callbackID);
-  } else {
-    window.__adobe_cep__.evalScript(script);
-  }
+  window.__adobe_cep__.evalScript(script, callback || null);
 };
 
 CSInterface.prototype.getApplicationID = function() {
@@ -58,5 +47,4 @@ CSInterface.prototype.getSystemPath = function(pathType) {
   return window.__adobe_cep__ ? window.__adobe_cep__.getSystemPath(pathType) : '';
 };
 
-return CSInterface;
-})();
+window.CSInterface = CSInterface;
