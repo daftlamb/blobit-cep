@@ -5,7 +5,10 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<h1>Blob It</h1>
+<div class="topbar">
+  <h1>Blob It</h1>
+  <button class="support-btn" id="btn-support">Support me / 支持我</button>
+</div>
 <div id="status">Loading script...</div>
 
 <div class="section">
@@ -67,6 +70,20 @@
 
 <button class="btn" id="btn-organicize">Organicize Selected</button>
 <div class="hint">Draw with Illustrator Pencil/Brush, select the path, then organicize it.</div>
+
+<div class="modal-backdrop" id="support-modal">
+  <div class="modal-box" style="text-align:center">
+    <button class="modal-close" id="support-close">&#10005;</button>
+    <h3>Support me / 支持我</h3>
+    <p>If Blob It helps your workflow, you can support future updates here.</p>
+    <p>如果这个工具对你的工作流有帮助，可以扫这个码支持我继续更新。</p>
+    <img src="assets/support-qr.png" class="support-qr" alt="Support QR">
+    <div class="support-note">
+      <p>Tip: draw a path, select it, then organicize or auto-update the current result.</p>
+      <p>小提示：先画路径并选中，再 organicize，或者开启自动更新当前结果。</p>
+    </div>
+  </div>
+</div>
 
 <script src="js/csinterface.js"></script>
 <script src="js/panel.js"></script>

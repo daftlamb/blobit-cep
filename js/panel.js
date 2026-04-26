@@ -99,8 +99,25 @@ function initPanel() {
   el('ck-auto').addEventListener('change', function () {
     if (el('ck-auto').checked) scheduleAutoUpdate();
   });
+  bindSupportModal();
 
   setStatus('Ready');
+}
+
+function bindSupportModal() {
+  var open = el('btn-support');
+  var modal = el('support-modal');
+  var close = el('support-close');
+  if (!open || !modal || !close) return;
+  open.addEventListener('click', function () {
+    modal.style.display = 'flex';
+  });
+  close.addEventListener('click', function () {
+    modal.style.display = 'none';
+  });
+  modal.addEventListener('click', function (evt) {
+    if (evt.target === modal) modal.style.display = 'none';
+  });
 }
 
 function bindPreset(id, preset) {
