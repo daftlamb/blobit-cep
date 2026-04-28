@@ -4,6 +4,9 @@ window.onerror = function (message, source, lineno) {
 };
 
 var cs = new CSInterface();
+var LICENSE_PRODUCT = 'blobit';
+var LICENSE_SECRET = 'daftlamb-cep-license-v1';
+var LICENSE_KEY = 'blobit-license-v1';
 
 function el(id) {
   return document.getElementById(id);
@@ -12,6 +15,84 @@ function el(id) {
 function setStatus(text) {
   var status = el('status');
   if (status) status.textContent = text;
+}
+
+function normalizeEmail(email) {
+  return String(email || '').replace(/^\s+|\s+$/g, '').toLowerCase();
+}
+
+function licenseHash(input) {
+  var h1 = 0x811c9dc5;
+  var h2 = 0x45d9f3b;
+  for (var i = 0; i < input.length; i++) {
+    var c = input.charCodeAt(i);
+    h1 ^= c;
+    h1 = Math.imul(h1, 16777619) >>> 0;
+    h2 ^= c + i;
+    h2 = Math.imul(h2, 2246822519) >>> 0;
+  }
+  var mixed = (h1.toString(36) + h2.toString(36)).toUpperCase().replace(/[^A-Z0-9]/g, '');
+  while (mixed.length < 16) mixed += mixed;
+  return mixed.substring(0, 16).replace(/(.{4})(?=.)/g, '$1-');
+}
+
+function makeLicenseCode(email) {
+  return licenseHash(normalizeEmail(email) + '|' + LICENSE_PRODUCT + '|' + LICENSE_SECRET);
+}
+
+function validateLicense(email, code) {
+  var normalized = normalizeEmail(email);
+  var cleaned = String(code || '').replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+  var expected = makeLicenseCode(normalized).replace(/-/g, '');
+  return normalized.indexOf('@') > 0 && cleaned === expected;
+}
+
+function getSavedLicense() {
+  try {
+    var raw = localStorage.getItem(LICENSE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (err) {
+    return null;
+  }
+}
+
+function saveLicense(email, code) {
+  localStorage.setItem(LICENSE_KEY, JSON.stringify({
+    email: normalizeEmail(email),
+    code: String(code || '').toUpperCase(),
+    product: LICENSE_PRODUCT,
+    activatedAt: new Date().toISOString()
+  }));
+}
+
+function isLicensed() {
+  var saved = getSavedLicense();
+  return !!(saved && validateLicense(saved.email, saved.code));
+}
+
+function setLockedState(locked) {
+  var ids = [
+    'btn-organicize', 'btn-warp-blob', 'btn-warp-explode', 'btn-warp-clear',
+    'btn-preset-left', 'btn-preset-right', 'btn-preset-pinch', 'btn-preset-explode'
+  ];
+  for (var i = 0; i < ids.length; i++) {
+    var node = el(ids[i]);
+    if (node) node.disabled = locked;
+  }
+}
+
+function updateLicenseUI() {
+  var licensed = isLicensed();
+  var section = el('license-section');
+  var hint = el('license-hint');
+  if (section) section.className = section.className.replace(/\s*licensed/g, '') + (licensed ? ' licensed' : '');
+  if (hint) {
+    var saved = getSavedLicense();
+    hint.textContent = licensed
+      ? 'Activated for ' + saved.email + '.'
+      : 'Enter the email and license code used for purchase.';
+  }
+  setLockedState(!licensed);
 }
 
 function getParams() {
@@ -43,6 +124,10 @@ function bindSlider(name) {
 }
 
 function runHost(fnName, params) {
+  if (!isLicensed()) {
+    setStatus('License required. Please activate Blob It first.');
+    return;
+  }
   setStatus('Working...');
   try {
     var payload = encodeURIComponent(serializeParams(params || getParams()));
@@ -67,6 +152,7 @@ function serializeParams(params) {
 }
 
 function initPanel() {
+  initLicense();
   bindSlider('radius');
   bindSlider('loose');
   bindSlider('noise');
@@ -101,7 +187,41 @@ function initPanel() {
   });
 
   setStatus('Ready');
+  updateLicenseUI();
 }
+
+function initLicense() {
+  var saved = getSavedLicense();
+  if (saved) {
+    if (el('license-email')) el('license-email').value = saved.email || '';
+    if (el('license-code')) el('license-code').value = saved.code || '';
+  }
+  el('btn-license-activate').addEventListener('click', function () {
+    var email = el('license-email').value;
+    var code = el('license-code').value;
+    if (validateLicense(email, code)) {
+      saveLicense(email, code);
+      updateLicenseUI();
+      setStatus('License activated.');
+    } else {
+      setStatus('Invalid license code.');
+    }
+  });
+  el('btn-license-clear').addEventListener('click', function () {
+    localStorage.removeItem(LICENSE_KEY);
+    updateLicenseUI();
+    setStatus('License cleared.');
+  });
+}
+
+window.BlobItLicense = {
+  generate: makeLicenseCode,
+  validate: validateLicense,
+  clear: function () {
+    localStorage.removeItem(LICENSE_KEY);
+    updateLicenseUI();
+  }
+};
 
 function bindPreset(id, preset) {
   var button = el(id);

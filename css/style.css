@@ -57,6 +57,19 @@ input[type=color] {
   width: 32px;
 }
 input[type=checkbox] { accent-color: #39ff14; }
+input[type=email],
+input[type=text] {
+  background: #151515;
+  border: 1px solid #4b4b4b;
+  border-radius: 5px;
+  color: #f0f0f0;
+  font-size: 11px;
+  outline: none;
+  padding: 8px;
+  width: 100%;
+}
+input[type=email]:focus,
+input[type=text]:focus { border-color: #39ff14; }
 .btn {
   background: #39ff14;
   border: none;
@@ -70,6 +83,10 @@ input[type=checkbox] { accent-color: #39ff14; }
   width: 100%;
 }
 .btn:hover { opacity: 0.86; }
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+}
 .btn-sec {
   background: #2d2d2d;
   border: 1px solid #4a4a4a;
@@ -79,6 +96,25 @@ input[type=checkbox] { accent-color: #39ff14; }
   background: #2d2d2d;
   border: 1px solid #594444;
   color: #ffb4b4;
+}
+.btn-small {
+  font-size: 10px;
+  padding: 7px;
+}
+.license-row { margin-bottom: 8px; }
+.license-section {
+  border: 1px solid #343434;
+  border-radius: 8px;
+  padding: 10px;
+}
+.license-section.licensed {
+  border-color: rgba(57, 255, 20, 0.55);
+}
+.license-section.licensed input,
+.license-section.licensed #btn-license-activate { display: none; }
+.locked-ui {
+  opacity: 0.45;
+  pointer-events: none;
 }
 .button-grid {
   display: grid;

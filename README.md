@@ -191,3 +191,22 @@ The original web app version lives here:
 原始网页版项目在这里：
 
 [daftlamb/blobit](https://github.com/daftlamb/blobit)
+
+## License Prototype
+
+This version includes a first-pass offline license gate for testing paid-plugin workflows.
+
+- Users enter an email address and a license code in the panel.
+- The panel stores the activated license in local CEP `localStorage`.
+- Core action buttons stay disabled until activation succeeds.
+- This is useful for testing the purchase / activation flow, but it is not a strong anti-crack system because CEP front-end code is visible on the user's machine.
+
+To generate a test code in the panel console:
+
+```js
+BlobItLicense.generate('buyer@example.com')
+```
+
+Then enter the same email and generated code in the License section.
+
+For a production paid version, move validation to an online license server and keep the secret off the client.
